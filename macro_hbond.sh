@@ -10,6 +10,10 @@ echo ${cpus}
 
 echo "Calculating h-bonds and generating visuals for the following files:"
 echo $PWD
+
+#clear old results from outdir
+rm ${outdir}/*
+
 cd ${datadir}
 #ls ${datadir}/*.pdb
 

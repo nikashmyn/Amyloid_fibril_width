@@ -5,7 +5,7 @@
 
 # ### Imports
 
-# In[4]:
+# In[5]:
 
 
 import pandas as pd
@@ -24,7 +24,7 @@ pd.set_option('display.max_rows', 200)
 
 # ### Read in cmd line args
 
-# In[5]:
+# In[6]:
 
 
 #sh macro_hbond.sh /Users/NikosMynhier/Desktop/David/Alpha_Psi_Calculation/fixed_pdbs_h 4 /Desktop/code/2021/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship /Users/NikosMynhier/Desktop/David/plots
@@ -32,12 +32,12 @@ pd.set_option('display.max_rows', 200)
 args = sys.argv
 
 #args: script name, /path/to/uncert_file.pdb, outfile path
-#args = ["script name", "/Users/NikosMynhier/Desktop/David/6ufr_origin_5layers_h_asu__Q__6ufr.pdb", "/Users/NikosMynhier/Desktop/David/plots" ]
+#args = ["script name", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/q_sayre/data/6qjq_origin_3layers_h__Q__emd_4566_c.pdb", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/calculations/hbonds/data/" ]
 #"5w7v_3layers_neg120p44_h.pdb" #'6ufr_origin_5layers_h.pdb'
 #args[1] = "/Users/NikosMynhier/Desktop/David/Alpha_Psi_Calculation/fixed_pdbs_h/5oqv_origin_5layers_h.pdb"
 
 
-# In[9]:
+# In[7]:
 
 
 args
@@ -55,7 +55,7 @@ args
 # 
 # u(v x w) = 0
 
-# In[6]:
+# In[8]:
 
 
 def get_file_length(input_file):
@@ -166,7 +166,7 @@ def read_in_pdb_type2(path):
 
 # ### Read-in .pdb file
 
-# In[7]:
+# In[9]:
 
 
 filename =  args[1]
@@ -178,7 +178,7 @@ df = read_in_pdb_type2(filename)
 df_uncert = df
 
 
-# In[8]:
+# In[10]:
 
 
 Residue_subgroup_col = [1]
@@ -200,7 +200,7 @@ df["subgroup"] = Residue_subgroup_col
 # 
 # ψ (psi) involves the backbone atoms N-Cα-C-N
 
-# In[10]:
+# In[11]:
 
 
 #Get Psi angles
@@ -236,7 +236,7 @@ df['ψ Angle'] = ψ_col
 index1_set = set(index1)
 
 
-# In[11]:
+# In[12]:
 
 
 #Get Phi angles
@@ -272,7 +272,7 @@ df['φ Angle'] = φ_col
 index2_set = set(index2)
 
 
-# In[12]:
+# In[13]:
 
 
 #Get uncertainties angles
@@ -291,7 +291,7 @@ for i in range(len(df_uncert)):
 df_uncert['Uncertainty'] = uncert_col
 
 
-# In[13]:
+# In[14]:
 
 
 print(len(index1_set), len(index2_set))
@@ -303,7 +303,7 @@ if index2_set.difference(index1_set) != set():
 # Ramachandran Plot
 # ___
 
-# In[14]:
+# In[15]:
 
 
 #Dihedral Angles add one to the begining and one to the end
@@ -321,7 +321,7 @@ if index2_set.difference(index1_set) != set():
 #
 
 
-# In[15]:
+# In[16]:
 
 
 structure = []
@@ -344,7 +344,7 @@ if len(structure) != len(φ):
     print("something wrong")
 
 
-# In[16]:
+# In[17]:
 
 
 start = [ψ_angles[0][0]]
@@ -362,7 +362,7 @@ df['structure'] = structure_col
 # Radius, Interstrand Distance & Strand Tilt
 # ___
 
-# In[17]:
+# In[18]:
 
 
 #Get a list of the Chain IDs
@@ -380,7 +380,7 @@ for i in df['Chain ID']:
         num_atm_chn += 1
 
 
-# In[18]:
+# In[19]:
 
 
 #Calculate centers of mass for each chain
@@ -404,7 +404,7 @@ for i in range(num_chains):
 # 
 # ---
 
-# In[19]:
+# In[20]:
 
 
 def get_dist(x2,x1,y2,y1,z2,z1):
@@ -416,7 +416,7 @@ def get_dist(x2,x1,y2,y1,z2,z1):
 # 
 # ---
 
-# In[24]:
+# In[21]:
 
 
 #Calculate all backbone-backbone h-bonds (Nikos Version)
@@ -446,7 +446,7 @@ for i in range(num_chains):
                             if nama[l][1:3]=='O ' and chainid[l]==all_chain_IDs[j] and resida[l]==resida[k]-1 and 1.6<get_dist(xa[k],xa[l],ya[k],ya[l],za[k],za[l])<2.6:
                                 dist.append(get_dist(xa[k],xa[l],ya[k],ya[l],za[k],za[l]))
                                 radius.append(np.sqrt(((xa[k]**2+((ya[k])**2)))))
-                                if ((abs((np.abs(za[k]-za[l]))/get_dist(xa[k],xa[l],ya[k],ya[l],za[k],za[l]))) > 1) :
+                                if ((abs((np.abs(za[k]-za[l]))/get_dist(xa[k],xa[l],ya[k],ya[l],za[k],za[l])))/1.24 > 1) :
                                     print((abs((np.abs(za[k]-za[l]))/get_dist(xa[k],xa[l],ya[k],ya[l],za[k],za[l]))))
                                 #tilt.append((180/np.pi)*np.arccos(((np.abs(za[k]-za[l]))/get_dist(xa[k],xa[l],ya[k],ya[l],za[k],za[l]))))
                                 chain_ID_H.append(chainid[k])
@@ -467,11 +467,11 @@ for i in range(num_chains):
 # # Calculate H-bond Tilts
 # ___
 
-# In[22]:
+# In[37]:
 
 
 #Calculate the "tilt" of each residue by measuring backbone carbonyl bond vector magnitude on X, Y plane
-CO_xy=[]
+CO_length=0
 CO_tilt=[]
 CO_radius=[]
 CO_chainid=[]
@@ -479,44 +479,15 @@ CO_residue_number=[]
 CO_residue_name=[]
 for i in range(length):
     if nama[i]==' C   ':
-        #print(nama[i])
-        #print(nama[i+1])
-        CO_xy.append(np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))
-        if ( (abs(np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))/1.23) > 1 ):
-            print("The sample ", sample_name, " has a radius of ", np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))
-        CO_tilt.append(90-(180/3.14)*np.arccos((np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))/1.24)) #changed /1.23 to /1.24
+        CO_length = np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2+(za[i+1]-za[i])**2)
+        CO_tilt.append(90-(180/3.14)*np.arccos((np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))/CO_length)) #changed /1.23 to /1.24
         CO_radius.append(np.sqrt(xa[i]**2+ya[i]**2))
         CO_chainid.append(chainid[i])
         CO_residue_number.append(resida[i])
         CO_residue_name.append(resn[i])
-        #print(CO_xy)
-#    if nama[i]==' C  A':
-#        #print(nama[i])
-#        #print(nama[i+2])
-#        CO_xy.append(np.sqrt((xa[i+2]-xa[i])**2+(ya[i+1]-ya[i])**2))
-#        CO_tilt.append(90-(180/3.14)*np.arccos((np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))/1.23))
-#        CO_radius.append(np.sqrt(xa[i]**2+ya[i]**2))
-#        CO_chainid.append(chainid[i])
-#        CO_residue_number.append(resida[i])
-#        CO_residue_name.append(resn[i])
-#        #print(CO_xy)
-#    if nama[i]==' C  B':
-#        #print(nama[i])
-#        #print(nama[i+2])
-#        CO_xy.append(np.sqrt((xa[i+2]-xa[i])**2+(ya[i+2]-ya[i])**2))
-#        CO_tilt.append(90-(180/3.14)*np.arccos((np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))/1.23))
-#        CO_radius.append(np.sqrt(xa[i]**2+ya[i]**2))
-#        CO_chainid.append(chainid[i])
-#        CO_residue_number.append(resida[i])
-#        CO_residue_name.append(resn[i])
-#        #print(CO_xy)
-        
-#for i in range(len(CO_radius)):
-#    print(CO_xy[i],CO_tilt[i],CO_radius[i],CO_chainid[i],CO_residue_number[i],CO_residue_name[i])
-    
 
 
-# In[20]:
+# In[38]:
 
 
 #Assign a tilt to each h-bond identified above
@@ -526,12 +497,9 @@ for i in range(len(dist)):
     for j in range(len(CO_radius)):
         if CO_residue_number[j]==residue_number_O[i] and CO_residue_name[j]==residue_name_O[i] and CO_chainid[j]==chain_ID_O[i]:
             h_bond_tilt.append(CO_tilt[j])
-            #print(CO_residue_number[j],residue_number_O[i],CO_residue_name[j],residue_name_O[i],CO_radius[j],radius[i],CO_tilt[j],CO_chainid[j],chain_ID_O[i])
-#print(len(residue_number_O))
-#print(len(h_bond_tilt))
 
 
-# In[21]:
+# In[24]:
 
 
 #print(len(radius),len(dist),len(h_bond_tilt),len(atom_name_H),len(residue_name_H),len(chain_ID_H),len(residue_number_H),len(atom_name_O),len(residue_name_O),len(chain_ID_O),len(residue_number_O))
@@ -541,7 +509,7 @@ for i in range(len(dist)):
 
 # # Contruct Pandas Dataframe with H-bond information
 
-# In[22]:
+# In[39]:
 
 
 d = {'radius':radius,'dist': dist,'tilt': h_bond_tilt,'atom_name_H': atom_name_H,'residue_name_H': residue_name_H,'chain_ID_H': chain_ID_H,'residue_number_H': residue_number_H,'atom_name_O': atom_name_O, 'residue_name_O': residue_name_O,'chain_ID_O': chain_ID_O,'residue_number_O': residue_number_O}
@@ -550,7 +518,7 @@ h_bonds = pd.DataFrame(d)
 
 # # Add H and O structure relationships to H-Bonds Object
 
-# In[23]:
+# In[40]:
 
 
 HnO_struc = []
@@ -582,7 +550,7 @@ h_bonds['Uncertainty'] = h_bond_uncertainties
 
 # # Save the Data Frames
 
-# In[30]:
+# In[41]:
 
 
 df.to_csv(f'{outpath}/{sample_name}' + '.datatable.csv', index=False)
@@ -598,7 +566,7 @@ h_bonds.to_csv(f'{outpath}/{sample_name}' + str(".hbonds.csv"), index=False)
 
 # # Plotting
 
-# In[23]:
+# In[42]:
 
 
 #colors = []
@@ -619,7 +587,7 @@ h_bonds.to_csv(f'{outpath}/{sample_name}' + str(".hbonds.csv"), index=False)
 #        colors.append('blue')
 
 
-# In[24]:
+# In[44]:
 
 
 #figsize = (15,5)
@@ -632,21 +600,21 @@ h_bonds.to_csv(f'{outpath}/{sample_name}' + str(".hbonds.csv"), index=False)
 ##Plot all Radius vs Distance
 #ax[0].scatter(h_bonds['radius'], h_bonds['dist'], c=colors)
 #ax[0].legend(['Red = Beta-Beta, Blue = else'], frameon=False, loc='upper right')
-#ax[0].set_title(filename, fontsize=15)
+##ax[0].set_title(filename, fontsize=15)
 #ax[0].set_xlabel("Radius", fontsize=15)
 #ax[0].set_ylabel("Dist", fontsize=15)
 #
 ##Plot all Radius vs Tilt
 #ax[1].scatter(h_bonds['radius'], h_bonds['tilt'], c=colors)
 #ax[1].legend(['Red = Beta-Beta, Blue = else'], frameon=False, loc='upper right')
-#ax[1].set_title(filename, fontsize=15)
+##ax[1].set_title(filename, fontsize=15)
 #ax[1].set_xlabel("Radius", fontsize=15)
 #ax[1].set_ylabel("Tilt", fontsize=15)
 #
 #plt.show() 
 
 
-# In[25]:
+# In[45]:
 
 
 #figsize = (15,5)
@@ -691,7 +659,7 @@ h_bonds.to_csv(f'{outpath}/{sample_name}' + str(".hbonds.csv"), index=False)
 
 # # Weighting linearly or with uncertainty
 
-# In[26]:
+# In[31]:
 
 
 ##Linear Weighting
@@ -707,7 +675,7 @@ h_bonds.to_csv(f'{outpath}/{sample_name}' + str(".hbonds.csv"), index=False)
 #derr = uncert_onlyBB
 
 
-# In[27]:
+# In[32]:
 
 
 #def curve(x, a, b, c):
