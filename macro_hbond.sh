@@ -27,13 +27,13 @@ ls ${datadir}/*.pdb > ${outdir}/pdb_files.txt
 echo "" > ${outdir}/cmd_list.cmds
 
 #Generate Run script commands (cmds) for h-bonds csvs
-while read line  
-do
-  echo "python3 ${scriptsdir}/find_hbonds_04252021_debugged.py ${line} ${outdir}" >> ${outdir}/cmd_list.cmds;
-  echo "" >> ${outdir}/cmd_list.cmds;
-done < ${outdir}/pdb_files.txt
+#while read line  
+#do
+#  echo "python3 ${scriptsdir}/find_hbonds_04252021_debugged.py ${line} ${outdir}" >> ${outdir}/cmd_list.cmds;
+#  echo "" >> ${outdir}/cmd_list.cmds;
+#done < ${outdir}/pdb_files.txt
 
-parallel --jobs ${cpus} < ${outdir}/cmd_list.cmds &> ${outdir}/run.macro_hbond.stdouterr
+#parallel --jobs ${cpus} < ${outdir}/cmd_list.cmds &> ${outdir}/run.macro_hbond.stdouterr
 
 #Reset the cmd list file
 echo "" > ${outdir}/cmd_list_plots.cmds

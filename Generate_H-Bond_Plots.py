@@ -13,7 +13,7 @@
 
 # ### Imports
 
-# In[1]:
+# In[74]:
 
 
 import pandas as pd
@@ -32,18 +32,18 @@ pd.set_option('display.max_rows', 200)
 
 # ### Read in cmd line args
 
-# In[2]:
+# In[75]:
 
 
 #sh macro_hbond.sh /Users/NikosMynhier/Desktop/David/Alpha_Psi_Calculation/fixed_pdbs_h 8 /Users/NikosMynhier/Desktop/code/2021/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship /Users/NikosMynhier/Desktop/David/plots /Users/NikosMynhier/Desktop/David/interstrand_radius /Users/NikosMynhier/Desktop/David/helical_parameters.txt 
 
 args = sys.argv
 #args: script name, /path/to/file.pdb, /path/to/uncert_file.pdb
-#args = ["script name", "/Users/NikosMynhier/Desktop/David/Alpha_Psi_Calculation/fixed_pdbs_h/6ufr_origin_5layers_h.datatable.csv", "/Users/NikosMynhier/Desktop/David/Alpha_Psi_Calculation/fixed_pdbs_h/6ufr_origin_5layers_h.hbonds.csv", "/Users/NikosMynhier/Desktop/David/interstrand_radius/6ufr_origin_5layers_rad_dist.csv", "/Users/NikosMynhier/Desktop/David/helical_parameters.txt", "/Users/NikosMynhier/Desktop/David/plots"]
+#args = ["script name", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/calculations/hbonds/data2/6wqk.datatable.csv", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/calculations/hbonds/data2/6wqk.hbonds.csv", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/calculations/interstrand_tilt_radius/data/6wqk_rad_dist.csv", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/width_pitch/helical_parameters.txt", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/calculations/hbonds/data3/"]
 #"5w7v_3layers_neg120p44_h.pdb" #'6ufr_origin_5layers_h.pdb'
 
 
-# In[3]:
+# In[76]:
 
 
 sample_name1 = args[1].split("/")[-1][0:4]
@@ -52,7 +52,7 @@ path = args[1][0:len(args[1])-len(args[1].split("/")[-1])]
 outdir = args[5]
 
 
-# In[4]:
+# In[77]:
 
 
 filename = args[1]
@@ -64,7 +64,7 @@ h_bonds = pd.read_csv(filename2)
 
 # ### Plotting
 
-# In[5]:
+# In[78]:
 
 
 colors = []
@@ -90,7 +90,7 @@ for i in range(len(h_bonds.iloc[:,1])):
 # 
 # ---
 
-# In[6]:
+# In[79]:
 
 
 filenames = args[3]
@@ -101,7 +101,7 @@ dataframe_tilt = h_bonds["tilt"]
 helix = pd.read_csv(filenames_helical, delimiter='\t', skipinitialspace=True, header=None)
 
 
-# In[7]:
+# In[80]:
 
 
 def get_radius(dataframe):
@@ -138,7 +138,7 @@ for j in range(len(dataframe)):
 #    Theo_tilt.append( pred_tilt(x, y, dataframe_tilt[j]) )
 
 
-# In[8]:
+# In[81]:
 
 
 figsize = (15,5)
@@ -146,32 +146,41 @@ columns = 3
 rows = 1
 
 fig, ax = plt.subplots(rows, columns, figsize=figsize, constrained_layout=True)
-fig.suptitle("All Relationships & Fits", fontsize=20)
+fig.suptitle(sample_name1, fontsize=20)
+
+#Plot Radius vs Interstrand Distance
+Measured = ax[0].scatter(dataframe[:][0], get_interstrand(dataframe))
+Predicted = ax[0].scatter(dataframe[:][0], Theo_interstrands)
+#ax[0].legend(['Orange = Predicted, Blue = Measured'], loc='upper left', scatterpoints=None)
+ax[0].legend((Measured,Predicted),['Measured','Predicted'],fontsize=14)
+name = dataframe[7][0]
+#ax[0].set_title(sample_name1, fontsize=13)
+ax[0].set_xlabel("Radius (Å)", fontsize=16)
+ax[0].set_ylabel("i, i+1 distance (Å)", fontsize=16)
+ax[0].tick_params(axis='x', labelsize=16)
+ax[0].tick_params(axis='y', labelsize=16)
 
 #Plot all Radius vs Distance
 #ax[0].scatter(h_bonds['radius'], h_bonds['dist'], c=colors)
-ax[0].scatter(radius_onlyBB, dist_onlyBB, c=colors_onlyBB)
-ax[0].legend(['Red = Beta-Beta'], frameon=False, loc='upper right') #, Blue = else'
-ax[0].set_title(sample_name1, fontsize=15)
-ax[0].set_xlabel("Radius", fontsize=15)
-ax[0].set_ylabel("Dist", fontsize=15)
+ax[1].scatter(radius_onlyBB, dist_onlyBB, c=colors_onlyBB)
+#ax[1].legend(['Red = Beta-Beta'], frameon=False, loc='upper left') #, Blue = else'
+#ax[1].set_title(sample_name1, fontsize=10)
+ax[1].set_xlabel("Radius (Å)", fontsize=16)
+ax[1].set_ylabel("β-sheet H-Bond Length (Å)", fontsize=16)
+ax[1].tick_params(axis='x', labelsize=16)
+ax[1].tick_params(axis='y', labelsize=16)
 
 #Plot all Radius vs Tilt
 #ax[1].scatter(h_bonds['radius'], h_bonds['tilt'], c=colors)
-ax[1].scatter(radius_onlyBB, tilt_onlyBB, c=colors_onlyBB)
-ax[1].legend(['Red = Beta-Beta'], frameon=False, loc='upper right') #, Blue = else'
-ax[1].set_title(sample_name1, fontsize=15)
-ax[1].set_xlabel("Radius", fontsize=15)
-ax[1].set_ylabel("Tilt", fontsize=15)
+ax[2].scatter(radius_onlyBB, tilt_onlyBB, c=colors_onlyBB)
+#ax[2].legend(['Red = Beta-Beta'], frameon=False, loc='upper right') #, Blue = else'
+#ax[2].set_title(sample_name1, fontsize=10)
+ax[2].set_xlabel("Radius (Å)", fontsize=16)
+ax[2].set_ylabel("Tilt (°)", fontsize=16)
+ax[2].tick_params(axis='x', labelsize=16)
+ax[2].tick_params(axis='y', labelsize=16)
 
-#Plot Radius vs Interstrand Distance
-ax[2].scatter(dataframe[:][0], get_interstrand(dataframe))
-ax[2].scatter(dataframe[:][0], Theo_interstrands)
-ax[2].legend(['Orange = Theoretical, Blue = Experimental'], frameon=False, loc='upper right')
-name = dataframe[7][0]
-ax[2].set_title(name, fontsize=15)
-ax[2].set_xlabel("Radius (Å)", fontsize=15)
-ax[2].set_ylabel("i, i+1 distance (Å)", fontsize=15)
+
 
 plt.savefig(f"{outdir}/{sample_name1}.all_plots.pdf")
 #plt.show() 
@@ -196,7 +205,7 @@ plt.savefig(f"{outdir}/{sample_name1}.all_plots.pdf")
 # 
 # ---
 
-# In[55]:
+# In[82]:
 
 
 #figsize = (15,5)
@@ -244,7 +253,7 @@ plt.savefig(f"{outdir}/{sample_name1}.all_plots.pdf")
 # 
 # ---
 
-# In[56]:
+# In[83]:
 
 
 ## Weighting linearly or with uncertainty
@@ -262,7 +271,7 @@ plt.savefig(f"{outdir}/{sample_name1}.all_plots.pdf")
 #derr = uncert_onlyBB
 
 
-# In[57]:
+# In[84]:
 
 
 #def curve(x, a, b, c):
