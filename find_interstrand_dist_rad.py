@@ -206,10 +206,10 @@ with open(f'{outpath}{sample_name}' + str("_rad_dist.csv"),'w') as csv_file:
 # In[42]:
 
 
-data=open(f'{outpath}{sample_name}' + str("_rad_dist.csv"))
+#data=open(f'{outpath}{sample_name}' + str("_rad_dist.csv"))
 
-data = np.genfromtxt(f'{outpath}{sample_name}' + str("_rad_dist.csv"), delimiter=",", names=["radius", "distance"])
+#data = np.genfromtxt(f'{outpath}{sample_name}' + str("_rad_dist.csv"), delimiter=",", names=["radius", "distance"])
 
-plt.figure(1)
-plt.scatter(data['radius'], data['distance'])
+#plt.figure(1)
+#plt.scatter(data['radius'], data['distance'])
 
