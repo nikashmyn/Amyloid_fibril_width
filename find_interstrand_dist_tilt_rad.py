@@ -121,7 +121,6 @@ for i in range(num_chains):
 
 
 #Calculate all interstrand distances
-#resida, nama, resn = np.array(df['Residue Number']), np.array(df['Atom Name']), np.array(df['Residue Name'])
 dist = []
 radius = []
 chain_ID_1 = []
@@ -150,58 +149,6 @@ for i in range(num_chains):
                         residue_number_12.append(resida[k])
                         atom_name_12.append(nama[k])
                         residue_name_12.append(resn[k])
-#elapsed_time_fl = (time.time() - start)
-#print(elapsed_time_fl)
-
-
-# In[102]:
-
-
-#Calculate X, Y distance for carbonyl oxygens
-CO_xy=[]
-CO_radius=[]
-CO_chainid=[]
-CO_residue_number=[]
-CO_residue_name=[]
-for i in range(length):
-    if nama[i]==' C   ':
-        #print(nama[i])
-        #print(nama[i+1])
-        CO_xy.append(np.sqrt((xa[i+1]-xa[i])**2+(ya[i+1]-ya[i])**2))
-        CO_radius.append(np.sqrt(xa[i]**2+ya[i]**2))
-        CO_chainid.append(chainid[i])
-        CO_residue_number.append(resida[i])
-        CO_residue_name.append(resn[i])
-        #print(CO_xy)
-    if nama[i]==' C  A':
-        #print(nama[i])
-        #print(nama[i+2])
-        CO_xy.append(np.sqrt((xa[i+2]-xa[i])**2+(ya[i+1]-ya[i])**2))
-        CO_radius.append(np.sqrt(xa[i]**2+ya[i]**2))
-        CO_chainid.append(chainid[i])
-        CO_residue_number.append(resida[i])
-        CO_residue_name.append(resn[i])
-        #print(CO_xy)
-    if nama[i]==' C  B':
-        #print(nama[i])
-        #print(nama[i+2])
-        CO_xy.append(np.sqrt((xa[i+2]-xa[i])**2+(ya[i+2]-ya[i])**2))
-        CO_radius.append(np.sqrt(xa[i]**2+ya[i]**2))
-        CO_chainid.append(chainid[i])
-        CO_residue_number.append(resida[i])
-        CO_residue_name.append(resn[i])
-        #print(CO_xy)
-        
-for i in range(len(CO_radius)):
-    print(CO_xy[i],CO_radius[i],CO_chainid[i],CO_residue_number[i],CO_residue_name[i])
-
-
-# In[74]:
-
-
-#graph CO_xy versus radius
-plt.figure(1)
-plt.scatter(CO_radius,CO_xy)
 
 
 # In[75]:
@@ -224,38 +171,6 @@ for i in range(num_atm_chn):
     
 
 
-# In[105]:
-
-
-#Calculate average CO tilt
-CO_xy_avg=[]
-CO_radius_avg=[]
-countA=0
-countB=0
-for i in range(CO_chainid.count('A')):
-    matches=1
-    CO_xy_sum=CO_xy[i]
-    CO_radius_sum=CO_radius[i]
-    for j in range(CO_chainid.count('A')+1,len(CO_xy)):
-        if CO_residue_name[i]==CO_residue_name[j] and CO_residue_number[i]==CO_residue_number[j]:
-            matches=matches+1
-            CO_xy_sum=CO_xy[j]+CO_xy_sum
-            CO_radius_sum=CO_radius[j]+CO_radius_sum
-    CO_xy_avg.append(CO_xy_sum/matches)
-    CO_radius_avg.append(CO_radius_sum/matches)
-
-for i in range(len(CO_xy_avg)):
-    print(CO_xy_avg[i],CO_radius_avg[i])
-
-
-# In[106]:
-
-
-#graph CO_xy versus radius
-#plt.figure(1)
-#plt.scatter(CO_radius_avg,CO_xy_avg)
-
-
 # In[76]:
 
 
@@ -265,28 +180,3 @@ with open(f'{filename}'[0:-4] + str("_rad_dist.csv"),'w') as csv_file:
     for i in range(len(distavg)):
         row = [radius[i],distavg[i],chain_ID_1[i],chain_ID_2[i],atom_name_12[i],residue_name_12[i],residue_number_12[i],filename[0:4]]
         csv_writer.writerow(row)
-
-
-# In[107]:
-
-
-#Save radius, tilt
-with open(f'{filename}'[0:-4] + str("_rad_tilt.csv"),'w') as csv_file:
-    csv_writer = csv.writer(csv_file)
-    for i in range(len(CO_xy_avg)):
-        row = [CO_radius_avg[i],CO_xy_avg[i],CO_chainid[i],CO_residue_name[i],CO_residue_number[i],filename[0:4]]
-        csv_writer.writerow(row)
-
-
-# ### Graph Interstrand Distance versus Radius
-
-# In[78]:
-
-
-#data=open(f'{filename}'[0:-4] + str("_rad_dist.csv"))
-
-#data = np.genfromtxt(f'{filename}'[0:-4] + str("_rad_dist.csv"), delimiter=",", names=["radius", "distance"])
-
-#plt.figure(1)
-#plt.plot(data['radius'], data['distance'])
-
