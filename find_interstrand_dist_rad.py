@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Strand to Strand Distance vs Radius
+#     # Strand to Strand Distance vs Radius
 
 # ### Imports
 
-# In[99]:
+# In[4]:
 
 
 import pandas as pd
@@ -14,14 +14,25 @@ import matplotlib.pyplot as plt
 import os
 import csv
 import time
+import sys
 from collections import Counter
 plt.style.use('seaborn-notebook')
 plt.style.use('seaborn-whitegrid')
 
 
+# #Read in cmd line args
+
+# In[5]:
+
+
+args = sys.argv
+#args: script name, /path/to/.pdb, outfile path
+args = ["script name", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/fixed_pdbs/6ufr_origin_5layers.pdb", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/temp_output/"]
+
+
 # ### Functions
 
-# In[68]:
+# In[13]:
 
 
 def get_file_length(input_file):
@@ -30,55 +41,60 @@ def get_file_length(input_file):
             pass
     return i + 1
 
+def read_in_pdb(path):
+    input_file = open(f'{path}','r')
+    file_length = get_file_length(f'{path}')
+    atom = []
+    atomno = []
+    nama = []
+    resn = []
+    chainid = []
+    resida = []
+    xa = []
+    ya = []
+    za = []
+    occup = []
+    tempf = []
+    elem = []
+    charge = []
+    for lines in range(file_length):
+        line = input_file.readline()
+        if line[0:4] == 'ATOM':
+            atom.append(line[0:6])
+            atomno.append(line[6:11])
+            nama.append(line[12:17])
+            resn.append(line[17:20])
+            chainid.append(line[21:22])
+            resida.append(int(line[22:26]))
+            xa.append(float(line[30:38]))
+            ya.append(float(line[38:46]))
+            za.append(float(line[46:54]))
+            occup.append(line[54:60])
+            tempf.append(line[60:66])
+            elem.append(line[76:78])
+            charge.append(line[78:80])
+    d = {'Atom': atom, 'Atom Number': atomno, 'Atom Name': nama, 'Residue Name': resn, 'Chain ID': chainid, 'Residue Number': resida, 'X': xa, 'Y': ya, 'Z': za, 'Occupancy': occup, 'Temperature Factor': tempf, 'Element': elem, 'Charge': charge} 
+    df = pd.DataFrame(d)
+    input_file.close()
+    return df
+
 
 # ### Read-in from .pdb
 
-# In[85]:
-
-filename=input("Name of pdb: ")
-input_file = open(f'{filename}','r')
-file_length = get_file_length(f'{filename}')
+# In[38]:
 
 
-atom = []
-atomno = []
-nama = []
-resn = []
-chainid = []
-resida = []
-xa = []
-ya = []
-za = []
-occup = []
-tempf = []
-elem = []
-charge = []
-for lines in range(file_length):
-    line = input_file.readline()
-    #line = str(line)
-    if line[0:4] == 'ATOM':
-        atom.append(line[0:6])
-        atomno.append(line[6:11])
-        nama.append(line[12:17])
-        resn.append(line[17:20])
-        chainid.append(line[21:22])
-        resida.append(int(line[22:26]))
-        xa.append(float(line[30:38]))
-        ya.append(float(line[38:46]))
-        za.append(float(line[46:54]))
-        occup.append(line[54:60])
-        tempf.append(line[60:66])
-        elem.append(line[76:78])
-        charge.append(line[78:80])
-d = {'Atom': atom, 'Atom Number': atomno, 'Atom Name': nama, 'Residue Name': resn, 'Chain ID': chainid, 'Residue Number': resida, 'X': xa, 'Y': ya, 'Z': za, 'Occupancy': occup, 'Temperature Factor': tempf, 'Element': elem, 'Charge': charge} 
-df = pd.DataFrame(d)
-input_file.close()
-df
+filename =  args[1]
+sample_name = args[1].split("/")[-1][0:4]
+outpath = args[2]
+make_outpath = f" mkdir -p {outpath} "
+os.system(make_outpath)
+df = read_in_pdb(filename)
 
 
 # ### Calculations (Radius, Interstrand Distance)
 
-# In[70]:
+# In[30]:
 
 
 #Get a list of the Chain IDs
@@ -96,11 +112,11 @@ for i in df['Chain ID']:
         num_atm_chn += 1
 
 
-# In[71]:
+# In[34]:
 
 
 #Calculate centers of mass for each chain
-#chainid, xa, ya, za = np.array(df['Chain ID']), np.array(df['X']), np.array(df['Y']), np.array(df['Z'])
+chainid, xa, ya, za = np.array(df['Chain ID']), np.array(df['X']), np.array(df['Y']), np.array(df['Z'])
 length = len(chainid)
 comx, comy, comz = [], [], []
 for i in range(num_chains):
@@ -117,10 +133,11 @@ for i in range(num_chains):
     comz.append(sumz/num_atm_chn)
 
 
-# In[72]:
+# In[35]:
 
 
 #Calculate all interstrand distances
+resida, nama, resn = np.array(df['Residue Number']), np.array(df['Atom Name']), np.array(df['Residue Name'])
 dist = []
 radius = []
 chain_ID_1 = []
@@ -149,9 +166,11 @@ for i in range(num_chains):
                         residue_number_12.append(resida[k])
                         atom_name_12.append(nama[k])
                         residue_name_12.append(resn[k])
+#elapsed_time_fl = (time.time() - start)
+#print(elapsed_time_fl)
 
 
-# In[75]:
+# In[36]:
 
 
 #Calculate average interstrand distances
@@ -171,12 +190,26 @@ for i in range(num_atm_chn):
     
 
 
-# In[76]:
+# In[40]:
 
 
 #Save radius, interstrand distance
-with open(f'{filename}'[0:-4] + str("_rad_dist.csv"),'w') as csv_file:
+with open(f'{outpath}{sample_name}' + str("_rad_dist.csv"),'w') as csv_file:
     csv_writer = csv.writer(csv_file)
     for i in range(len(distavg)):
         row = [radius[i],distavg[i],chain_ID_1[i],chain_ID_2[i],atom_name_12[i],residue_name_12[i],residue_number_12[i],filename[0:4]]
         csv_writer.writerow(row)
+
+
+# ### Graph Interstrand Distance versus Radius
+
+# In[42]:
+
+
+data=open(f'{outpath}{sample_name}' + str("_rad_dist.csv"))
+
+data = np.genfromtxt(f'{outpath}{sample_name}' + str("_rad_dist.csv"), delimiter=",", names=["radius", "distance"])
+
+plt.figure(1)
+plt.scatter(data['radius'], data['distance'])
+
