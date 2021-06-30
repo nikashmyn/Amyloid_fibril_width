@@ -1,0 +1,16 @@
+*
+
+!.gitignore
+!environment.yml
+!Generate_H-Bond_Plots.ipynb
+!Generate_H-Bond_Plots.py
+!Graph\ Interstrand\ Distance\ and\ Strand\ Tilt.ipynb
+!LICENSE
+!README.md
+!find_hbonds.com
+!find_hbonds_04252021_debugged.ipynb
+!find_hbonds_04252021_debugged.py
+!find_interstrand_dist_rad.com
+!find_interstrand_dist_rad.ipynb
+!find_interstrand_dist_rad.py
+!macro_hbond.sh
