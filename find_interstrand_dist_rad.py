@@ -27,7 +27,7 @@ plt.style.use('seaborn-whitegrid')
 
 args = sys.argv
 #args: script name, /path/to/.pdb, outfile path
-args = ["script name", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/fixed_pdbs/6ufr_origin_5layers.pdb", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/temp_output/"]
+#args = ["script name", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/fixed_pdbs/6ufr_origin_5layers.pdb", "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/temp_output/"]
 
 
 # ### Functions
