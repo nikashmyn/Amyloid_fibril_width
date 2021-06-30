@@ -1,6 +1,7 @@
 *
 
 !.gitignore
+!environment.yml
 !Generate_H-Bond_Plots.ipynb
 !Generate_H-Bond_Plots.py
 !Graph\ Interstrand\ Distance\ and\ Strand\ Tilt.ipynb
