@@ -28,7 +28,7 @@ pdb_h/
 graphs/
 helical_parameters.txt
 
-In the first directory, we have the input pdb without hydrogens and the output csv file with interstrand distances and radii. In the second directory, we have the pdb file with hydrogens and the output files including the hydrogen bond lengths, off-axis tilts, and radii. In the third directory, there is the graphing output. To run the programs to produce the output files, specify in the macro_hbond.sh file the correct input directories, directory containing downloaded scripts, helical parameters, the graphing output directory, and the number of cpus to use for GNU's parallel program. Make sure you have everything correctly input in the macro_hbond.sh.
+In the first directory, we have the input pdb without hydrogens and the output csv file with interstrand distances and radii. In the second directory, we have the pdb file with hydrogens and the output files including the hydrogen bond lengths, off-axis tilts, and radii. In the third directory, there is the graphing output. To run the programs to produce the output files, specify in the macro_hbond.sh file the correct input directories, directory containing downloaded scripts, helical parameters, the graphing output directory, and the number of cpus to use for GNU's parallel program. 
 
 The outputs can then be calculated by running the command: sh macro_hbond.sh
 
