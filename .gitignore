@@ -15,3 +15,10 @@
 !find_interstrand_dist_rad.py
 !macro_hbond.sh
 !helical_parameters.txt
+!beyond26chainsdiscont
+!beyond26chainsdiscont_v05.f
+!distrecord2phenix_withsidechains_planarity3
+!distrecord2phenix_withsidechains_planarity3.com
+!distrecord2phenix_withsidechains_planarity3.f
+!helical.com
+
