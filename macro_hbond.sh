@@ -5,7 +5,7 @@ h_pdb_dir=/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/pyth
 cpus=4
 scripts_dir=/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship/ #path to the folder which includes all auxiliary scripts
 output_graphs_dir=/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship/graphs/
-helical_parameters=/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/width_pitch/helical_parameters.txt
+helical_parameters=/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship/helical_parameters.txt
 
 echo "Calculating interstrand distances for the following files:"
 echo `ls ${no_h_pdb_dir}/*.pdb`
