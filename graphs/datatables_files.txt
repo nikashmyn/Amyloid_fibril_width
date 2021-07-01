@@ -1,1 +1,1 @@
-/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship/pdb_h_qscore//6ufr.datatable.csv
+/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship/pdb_h//6ufr.datatable.csv
