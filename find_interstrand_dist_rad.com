@@ -1,10 +1,8 @@
 #!/bin/csh -f
-set pdbindir =  "../../../fixed_pdbs/"
-set dataoutdir = "data"
+set pdbindir =  "pdb_noh/"
+set dataoutdir = "pdb_noh/"
 set workdir = `pwd`
-rm -rf $dataoutdir
 mkdir $dataoutdir
-rm find_interstrand_dist_tilt_rad.log
 
 cd $pdbindir
 ls -1 *.pdb > $workdir/pdblist
@@ -15,7 +13,7 @@ echo 'preparing pdb file' $pdbfile
 
 cp $pdbindir/$pdbfile .
 
-python find_interstrand_dist_tilt_rad.py <<eof | tee -a find_interstrand_dist_tilt_rad.log
+python find_interstrand_dist_tilt_rad.py <<eof | tee -a $dataoutdir/find_interstrand_dist_tilt_rad.log
 $pdbfile
 eof
 

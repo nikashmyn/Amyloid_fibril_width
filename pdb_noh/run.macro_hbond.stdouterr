@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship//find_interstrand_dist_rad.py", line 92, in <module>
+    df = read_in_pdb(filename)
+  File "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship//find_interstrand_dist_rad.py", line 45, in read_in_pdb
+    input_file = open(f'{path}','r')
+FileNotFoundError: [Errno 2] No such file or directory: '6ufr_origin_5layers.pdb'
+Traceback (most recent call last):
+  File "/Users/davidboyer/Dropbox/Tau_Project_EISENBERG_LAB/amyloid_width/python/AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship//find_hbonds_04252021_debugged.py", line 174, in <module>
+    outpath = args[2]
+IndexError: list index out of range
