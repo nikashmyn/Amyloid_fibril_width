@@ -1,11 +1,7 @@
-# AB-Fibril-Radius-vs-Hydrogen-Bond-Relationship
+# Amyloid_fibril_width
 Repository for David Boyer's AB Structure Project. Written by David Boyer and Nikos Mynhier. 
 
-<<<<<<< HEAD
-# Dependencies
-=======
 # Setting up an Environment
->>>>>>> 5178f46a5efd1e3c750803c0d973de064624a0fa
 Dependencies (w/ versions) are listed in the environment.yml file. Install these dependencies using a conda environment. 
 
 ```
