@@ -1,3 +1,0 @@
-Meet with Nikos to clean up repository. Do we want to include dependencies for Fortran, hbplus, pdbset, etc.?
-How to make repository publicly accessible. Can we change the name of it? Can we add David Boyer as an owner?
-Once respository is finalized, make sure to include the link to it in the manuscript.
