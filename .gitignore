@@ -21,6 +21,6 @@
 !distrecord2phenix_withsidechains_planarity3.com
 !distrecord2phenix_withsidechains_planarity3.f
 !helical.com
-!pdb_h/*
-!pdb_noh/*
-!graphs/*
+!pdb_h
+!pdb_noh
+!graphs
