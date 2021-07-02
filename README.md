@@ -11,7 +11,7 @@ conda env create -f /path/to/gitclone/environment.yml
 You will then want to activate the environment. 
 
 ```
-conda activate Pipeline
+conda activate amyloid_fibril_width
 ```
 
 # Running the Workflow
