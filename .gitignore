@@ -14,8 +14,6 @@
 !find_interstrand_dist_rad.ipynb
 !find_interstrand_dist_rad.py
 !macro_hbond.sh
-<<<<<<< HEAD
-=======
 !helical_parameters.txt
 !beyond26chainsdiscont
 !beyond26chainsdiscont_v05.f
@@ -23,5 +21,6 @@
 !distrecord2phenix_withsidechains_planarity3.com
 !distrecord2phenix_withsidechains_planarity3.f
 !helical.com
-
->>>>>>> 5178f46a5efd1e3c750803c0d973de064624a0fa
+!pdb_h/*
+!pdb_noh/*
+!graphs/*
